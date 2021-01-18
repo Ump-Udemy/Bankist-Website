@@ -8,6 +8,8 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const section2 = document.querySelector('#section--2');
+const nav = document.querySelector('.nav');
+
 
 const openModal = (event) => {
   event.preventDefault();
@@ -45,6 +47,7 @@ document.querySelector('.nav__links').addEventListener('click',(event)=>{
   event.preventDefault();
   if(event.target.classList.contains('nav__link')) {
     const id = event.target.getAttribute('href');
+    if(id === '#') return;
     document.querySelector(id).scrollIntoView({behavior: 'smooth'});
   };
 });
@@ -62,3 +65,19 @@ tabsContainer.addEventListener('click',(event)=>{
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 
 });
+
+const handleHover = (event,opacity) => {
+  if(event.target.classList.contains('nav__link')){
+    const link = event.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(element => {
+      if ( element !== link ) element.style.opacity = opacity;
+    });
+    logo.style.opacity = opacity;
+  }
+}
+
+nav.addEventListener('mouseover',(event) => handleHover(event,0.5));
+nav.addEventListener('mouseout',(event) => handleHover(event,1));
