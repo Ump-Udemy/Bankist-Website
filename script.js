@@ -1,7 +1,5 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -34,13 +32,25 @@ document.addEventListener('keydown', (event) => {
 });
 
 btnScrollTo.addEventListener('click',(event)=>{
-  const s1coord = section1.getBoundingClientRect();
-  
+  //const s1coord = section1.getBoundingClientRect();
   // window.scrollTo({
   //   left:s1coord.left + window.pageXOffset,
   //   top:s1coord.top + window.pageYOffset,
   //   behavior: 'smooth',
   // });
-  
   section1.scrollIntoView({behavior: 'smooth'});
 })
+
+document.querySelectorAll('.nav__link').forEach((element)=> {
+  element.addEventListener('click',(event)=> {
+    
+  });
+})
+
+document.querySelector('.nav__links').addEventListener('click',(event)=>{
+  event.preventDefault();
+  if(event.target.classList.contains('nav__link')) {
+    const id = event.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+  }
+});
