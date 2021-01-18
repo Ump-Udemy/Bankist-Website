@@ -39,18 +39,26 @@ btnScrollTo.addEventListener('click',(event)=>{
   //   behavior: 'smooth',
   // });
   section1.scrollIntoView({behavior: 'smooth'});
-})
-
-document.querySelectorAll('.nav__link').forEach((element)=> {
-  element.addEventListener('click',(event)=> {
-    
-  });
-})
+});
 
 document.querySelector('.nav__links').addEventListener('click',(event)=>{
   event.preventDefault();
   if(event.target.classList.contains('nav__link')) {
     const id = event.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({behavior: 'smooth'});
-  }
+  };
+});
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click',(event)=>{
+  const clicked = event.target.closest('.operations__tab');
+  if(!clicked) return;
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+  tabsContent.forEach(content => content.classList.remove('operations__content--active'));
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+
 });
