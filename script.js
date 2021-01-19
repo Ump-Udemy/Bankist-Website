@@ -9,7 +9,7 @@ const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const section2 = document.querySelector('#section--2');
 const nav = document.querySelector('.nav');
-
+const header = document.querySelector('.header');
 
 const openModal = (event) => {
   event.preventDefault();
@@ -81,3 +81,12 @@ const handleHover = (event,opacity) => {
 
 nav.addEventListener('mouseover',(event) => handleHover(event,0.5));
 nav.addEventListener('mouseout',(event) => handleHover(event,1));
+
+const stickyNav = (entries) => {
+  const entry = entries[0];
+  if(!entry.isIntersecting)nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav,{root: null, threshold: 0, rootMargin: '-90px'});
+headerObserver.observe(header);
