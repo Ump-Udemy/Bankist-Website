@@ -11,6 +11,10 @@ const section2 = document.querySelector('#section--2');
 const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 const imgTargets = document.querySelectorAll('img[data-src]');
+const slides = document.querySelectorAll('.slide');
+const btnSliderLeft = document.querySelector('.slider__btn--left');
+const btnSliderRight = document.querySelector('.slider__btn--right');
+const dotContainer = document.querySelector('.dots');
 
 const openModal = (event) => {
   event.preventDefault();
@@ -121,3 +125,58 @@ const imgObserver = new IntersectionObserver(loadImg,{root: null, threshold: 0, 
 
 
 imgTargets.forEach( img => imgObserver.observe(img) );
+
+const createDots = () => {
+  slides.forEach((_, index)=> dotContainer.insertAdjacentHTML('beforeend',`<button class="dots__dot" data-slide="${index}"></button>`));
+  activateDot(0);
+}
+
+const activateDot = (slide) => {
+  document.querySelectorAll('.dots__dot').forEach(dot => {
+    dot.classList.remove('dots__dot--active');
+  });
+  //console.log(document.querySelector(`.dots__dot[data-slide="${slide}"]`));
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active');
+}
+
+
+const goToSlide = (slide) => {
+  slides.forEach( (s, i) => s.style.transform = `translateX(${ (i - slide) * 100 }%)`);
+}
+
+goToSlide(0);
+createDots();
+
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const nextSlide = () => {
+  if(curSlide === maxSlide - 1 ) return;
+  else curSlide++;
+  goToSlide(curSlide);
+  activateDot(curSlide);
+}
+
+const prevSlide = () => {
+  if(curSlide === 0 ) return;
+  else curSlide--;
+  goToSlide(curSlide);
+  activateDot(curSlide);
+}
+
+btnSliderRight.addEventListener('click',nextSlide);
+btnSliderLeft.addEventListener('click',prevSlide);
+
+document.addEventListener('keydown', (event) =>{
+  event.key === 'ArrowLeft' && prevSlide();
+  event.key === 'ArrowRight' && nextSlide();
+});
+
+dotContainer.addEventListener('click', event => {
+  if(event.target.classList.contains('dots__dot')){
+    const {slide} = event.target.dataset;
+    goToSlide(slide);
+    activateDot(slide);
+  }
+})
